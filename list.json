@@ -1,0 +1,16 @@
+{	
+	"list": {
+		"listItem0": {
+			"task": "work",
+			"isCompleted": true
+		},
+		"listItem1": {
+			"task": "write some code",
+			"isCompleted": true
+		},
+		"listItem2": {
+			"task": "go home",
+			"isCompleted": true
+		}
+	}
+}

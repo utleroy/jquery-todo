@@ -1,0 +1,20 @@
+{
+  "name": "sass",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Lee Hankins <bryanlhankins@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1"
+  }
+}

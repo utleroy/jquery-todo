@@ -9,43 +9,36 @@
 </head>
 
 <body>
-<h1>Todo</h1>
-<div class="container">
-<div class="panel panel-default search-bar col-xs-offset-3">
-  <div class="panel-body">
-    <input class="form-control" type="text" id="add-todo" name="" placeholder="add todo here">
-    <button type="button" class="btn btn-primary btn-lg" id="clicky-button">Add to list</button>
+  <h1>Todo</h1>
+  <div class="container">
+    <div class="panel panel-default search-bar col-xs-offset-3">
+      <div class="panel-body">
+        <input class="form-control" type="text" id="addTodo" name="" placeholder="add todo here">
+        <button type="button" class="btn btn-primary btn-lg add-btn">Add to list</button>
+      </div>
+    </div>
+
+
+    <div id="outputNew">
+      <h3>List of new items</h3>
+
+    </div>
+
+    <div id="outputCompleted">
+      <h3>Completed</h3>
+
+    </div>
+
   </div>
-</div>
 
-<div id="output">
 
-<h3>List of new items</h3>
-<div class="panel panel-default heading-row">
-  <div class="panel-body">
-    <div class="col-xs-1"></div>
-      <div class="col-xs-6"><input type="checkbox"></div>
-    <div class="col-xs-4">thing to be done</div> 
-    <div class="col-xs-1"></div>               
-  </div>
-</div>
 
-<h3>Completed</h3>
-<div class="panel panel-default heading-row">
-  <div class="panel-body">
-    <div class="col-xs-1"></div>
-      <div class="col-xs-6"><input type="checkbox"></div>
-    <div class="col-xs-4">thing that's done</div> 
-    <div class="col-xs-1"></div>               
-  </div>
-</div>
-  
-</div>
-
-</div>
+  <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
   <script src="/lib/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   
+  <script src="/javascripts/firebase.js"></script>
+  <script src="/javascripts/firebaseMethods.js"></script>
   <script src="/javascripts/main.js"></script>
 
 </body>

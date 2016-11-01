@@ -1,16 +1,16 @@
 {	
-	"list": {
-		"listItem0": {
+	"items": {
+		"id0":{
 			"task": "work",
 			"isCompleted": true
 		},
-		"listItem1": {
+		"id1":{
 			"task": "write some code",
-			"isCompleted": true
+			"isCompleted": false
 		},
-		"listItem2": {
+		"id3": {
 			"task": "go home",
-			"isCompleted": true
+			"isCompleted": false
 		}
 	}
 }

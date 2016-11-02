@@ -13,7 +13,6 @@ function putTodoInDOM (){
 				newListItem+='<div class="col-xs-8">';
 				newListItem+='<input class="checkboxStyle" type="checkbox" checked>';
 				newListItem+=`<label class="inputLabel">${item.task}</label>`;
-				newListItem+='<input type="text" class="inputTask">';
 				newListItem+='</div>';
 				newListItem+='</li>';
           //apend to list
@@ -26,7 +25,7 @@ function putTodoInDOM (){
         	newListItem+='<input type="text" class="inputTask">';
         	newListItem+='</div>';
         	newListItem+='<div class="col-xs-4">';
-        	newListItem+='<button class="btn btn-default col-xs-6 edit">Edit</button>';
+        	newListItem+=`<button class="btn btn-default col-xs-6 edit" data-fbid="${item.id}">Edit</button>`;
         	newListItem+=`<button class="btn btn-danger col-xs-6 delete" data-fbid="${item.id}">Delete</button>`;
         	newListItem+='</div>';
         	newListItem+='</li>';
@@ -64,7 +63,53 @@ $(document).ready(function(){
 		});
 	});
 
+	
+	$("ul").on("click", ".edit", function() {
+		let itemId = $(this).data("fbid");
+		let parent = $(this).closest("li");
+		if(!parent.hasClass("editMode")){
+			parent.addClass("editMode");
+		}else{
+			let editedItem = {
+				"task":parent.find(".inputTask").val(),
+				"isCompleted": false
+			};
+			FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(response){
+				console.log("edit mode", response);
+			parent.removeClass("editMode");
+				putTodoInDOM();
+			});
+		}
+	});
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

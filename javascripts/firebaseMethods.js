@@ -51,5 +51,21 @@ oldFirebase.deleteToDo = function(apiKeys, itemId){
 	});
 }; 
 
+oldFirebase.editTodo = function(apiKeys, itemId, editedItem){
+	return new Promise((resolve, reject)=>{
+		$.ajax({
+			method: "PUT",
+			url:`${apiKeys.databaseURL}/items/${itemId}.json`,
+			data: JSON.stringify(editedItem),
+			dataType: "json"
+		}).then((response)=>{
+			console.log("response from post", response);
+			resolve(response);
+		},(error)=>{
+			reject(error);
+		});
+	});
+};
+
 	return oldFirebase;
 })(FbAPI || {});

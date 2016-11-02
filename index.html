@@ -9,25 +9,36 @@
 </head>
 
 <body>
-  <h1>Todo</h1>
+
+  <div class="container col-xs-4 col-xs-offset-4" id="login-container">
+    <h1 class="form-signin-heading">Todo App</h1>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <input type="text" id="inputUsername" class="form-control" placeholder="Username" required>
+    <button class="btn btn-lg btn-success col-xs-6" id="loginButton">Login</button>
+    <button class="btn btn-lg btn-primary col-xs-6" id="registerButton">Register</button>
+  </div>
+
+
   <!-- <div class="container"> -->
-    <div class="panel panel-default search-bar col-xs-offset-3">
-      <div class="panel-body">
-        <input class="form-control" type="text" id="add-todo" name="" placeholder="add todo here">
-        <button type="button" class="btn btn-primary btn-lg" id="add-btn">Add to list</button>
-      </div>
+
+  <div class="panel panel-default search-bar col-xs-offset-3 hide" id="todo-container">
+    <div class="panel-body">
+      <input class="form-control" type="text" id="add-todo" name="" placeholder="add todo here">
+      <button type="button" class="btn btn-primary btn-lg" id="add-btn">Add to list</button>
+    </div>
     <!-- </div> -->
 
 
     <!-- <div id="outputNew"> -->
-      <h3>List of new items</h3>
-      <ul id="incomplete-tasks"></ul>
+    <h3>List of new items</h3>
+    <ul id="incomplete-tasks"></ul>
 
     <!-- </div> -->
 
     <!-- <div id="outputCompleted"> -->
-      <h3>Completed</h3>
-      <ul id="completed-tasks"></ul>
+    <h3>Completed</h3>
+    <ul id="completed-tasks"></ul>
 
 
     <!-- </div> -->
@@ -42,6 +53,7 @@
   
   <script src="/javascripts/firebase.js"></script>
   <script src="/javascripts/firebaseMethods.js"></script>
+  <script src="/javascripts/firebaseAuth.js"></script>
   <script src="/javascripts/main.js"></script>
 
 </body>

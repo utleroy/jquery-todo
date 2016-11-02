@@ -1,6 +1,7 @@
 "use strict";
 
 let apiKeys = {};
+let uid = "";
 
 function putTodoInDOM (){
 	FbAPI.getTodos(apiKeys).then(function(items){
@@ -42,7 +43,6 @@ $(document).ready(function(){
 		console.log("keys", keys);
 		apiKeys = keys;
 		firebase.initializeApp(apiKeys);
-		putTodoInDOM();
 	});
 
 	$("#add-btn").on("click", function(){
@@ -76,26 +76,45 @@ $(document).ready(function(){
 			};
 			FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(response){
 				console.log("edit mode", response);
-			parent.removeClass("editMode");
+				parent.removeClass("editMode");
 				putTodoInDOM();
 			});
 		}
 	});
-$("ul").on("change", 'input[type="checkbox"]', function(){
-let updatedIsCompleted = $(this).closest("li").data("completed");
-let itemId = $(this).parent().data("fbid");
-let task = $(this).siblings(".inputLabel").html();
 
-let editedItem = {
-	"task": task,
-	"isCompleted": !updatedIsCompleted
-};
-FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(){
-	putTodoInDOM();
-});
+	$("ul").on("change", 'input[type="checkbox"]', function(){
+		let updatedIsCompleted = $(this).closest("li").data("completed");
+		let itemId = $(this).parent().data("fbid");
+		let task = $(this).siblings(".inputLabel").html();
 
+		let editedItem = {
+			"task": task,
+			"isCompleted": !updatedIsCompleted
+		};
+		FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(){
+			putTodoInDOM();
+		});
+	});
 
-});
+	$("#registerButton").on("click", function(){
+		let email = $("#inputEmail").val();
+		let password = $("#inputPassword").val();
+		let user = {
+			"email": email,
+			"password": password
+		};
+		FbAPI.registerUser(user).then(function(response){
+			console.log("user response", response);
+			return FbAPI.loginUser(user);
+		}).then(function(loginResponse){
+			console.log("login response", loginResponse);
+			uid = loginResponse.uid;
+			putTodoInDOM();
+			$("#login-container").addClass("hide");
+			$("#todo-container").removeClass("hide");
+		});
+	});
+
 
 });
 

@@ -9,7 +9,7 @@ function putTodoInDOM (){
 		$("#incomplete-tasks").html("");
 		items.forEach(function(item){
 			if(item.isCompleted === true){
-				let newListItem = '<li>';
+				let newListItem = `<li data-completed="${item.isCompleted}">`;
 				newListItem+='<div class="col-xs-8">';
 				newListItem+='<input class="checkboxStyle" type="checkbox" checked>';
 				newListItem+=`<label class="inputLabel">${item.task}</label>`;
@@ -18,8 +18,8 @@ function putTodoInDOM (){
           //apend to list
           $('#completed-tasks').append(newListItem);
         } else {
-        	let newListItem = '<li>';
-        	newListItem+='<div class="col-xs-8">';
+        	let newListItem = `<li data-completed="${item.isCompleted}">`;
+        	newListItem+=`<div class="col-xs-8" data-fbid="${item.id}">`;
         	newListItem+='<input class="checkboxStyle" type="checkbox">';
         	newListItem+=`<label class="inputLabel">${item.task}</label>`;
         	newListItem+='<input type="text" class="inputTask">';
@@ -81,6 +81,22 @@ $(document).ready(function(){
 			});
 		}
 	});
+$("ul").on("change", 'input[type="checkbox"]', function(){
+let updatedIsCompleted = $(this).closest("li").data("completed");
+let itemId = $(this).parent().data("fbid");
+let task = $(this).siblings(".inputLabel").html();
+
+let editedItem = {
+	"task": task,
+	"isCompleted": !updatedIsCompleted
+};
+FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(){
+	putTodoInDOM();
+});
+
+
+});
+
 });
 
 

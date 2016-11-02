@@ -4,14 +4,14 @@ let apiKeys = {};
 let uid = "";
 
 function putTodoInDOM (){
-	FbAPI.getTodos(apiKeys).then(function(items){
+	FbAPI.getTodos(apiKeys, uid).then(function(items){
 		console.log("items from FB", items);
 		$("#completed-tasks").html("");
 		$("#incomplete-tasks").html("");
 		items.forEach(function(item){
 			if(item.isCompleted === true){
 				let newListItem = `<li data-completed="${item.isCompleted}">`;
-				newListItem+='<div class="col-xs-8">';
+				newListItem+=`<div class="col-xs-8" data-fbid="${item.id}">`;
 				newListItem+='<input class="checkboxStyle" type="checkbox" checked>';
 				newListItem+=`<label class="inputLabel">${item.task}</label>`;
 				newListItem+='</div>';
@@ -48,7 +48,8 @@ $(document).ready(function(){
 	$("#add-btn").on("click", function(){
 		let newItem = {
 			"task": $("#add-todo").val(),
-			"isCompleted": false
+			"isCompleted": false,
+			"uid": uid
 		};
 
 		FbAPI.addTodo(apiKeys, newItem).then(function(){
@@ -72,7 +73,8 @@ $(document).ready(function(){
 		}else{
 			let editedItem = {
 				"task":parent.find(".inputTask").val(),
-				"isCompleted": false
+				"isCompleted": false,
+				"uid":uid
 			};
 			FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(response){
 				console.log("edit mode", response);
@@ -89,7 +91,8 @@ $(document).ready(function(){
 
 		let editedItem = {
 			"task": task,
-			"isCompleted": !updatedIsCompleted
+			"isCompleted": !updatedIsCompleted,
+				"uid":uid
 		};
 		FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(){
 			putTodoInDOM();
@@ -108,6 +111,21 @@ $(document).ready(function(){
 			return FbAPI.loginUser(user);
 		}).then(function(loginResponse){
 			console.log("login response", loginResponse);
+			uid = loginResponse.uid;
+			putTodoInDOM();
+			$("#login-container").addClass("hide");
+			$("#todo-container").removeClass("hide");
+		});
+	});
+
+	$("#loginButton").on("click", function(){
+		let email = $("#inputEmail").val();
+		let password = $("#inputPassword").val();
+		let user = {
+			"email": email,
+			"password": password
+		};
+		FbAPI.loginUser(user).then(function(loginResponse){
 			uid = loginResponse.uid;
 			putTodoInDOM();
 			$("#login-container").addClass("hide");

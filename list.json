@@ -2,15 +2,18 @@
 	"items": {
 		"id0":{
 			"task": "work",
-			"isCompleted": true
+			"isCompleted": true,
+			"uid": "zY1GQqvWkMMWLfcECHRy4w0jeCk1"
 		},
 		"id1":{
 			"task": "write some code",
-			"isCompleted": false
+			"isCompleted": false,
+			"uid": "zY1GQqvWkMMWLfcECHRy4w0jeCk1"
 		},
 		"id3": {
 			"task": "go home",
-			"isCompleted": false
+			"isCompleted": false,
+			"uid": "ZNHWoiCzKHaxZ11PM3yxqLMdDsU2"
 		}
 	}
 }

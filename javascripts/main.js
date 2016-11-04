@@ -23,10 +23,17 @@ function putTodoInDOM (){
         	newListItem+=`<div class="col-xs-8" data-fbid="${item.id}">`;
         	newListItem+='<input class="checkboxStyle" type="checkbox">';
         	newListItem+=`<label class="inputLabel">${item.task}</label>`;
-        	newListItem+='<input type="text" class="inputTask">';
+        	newListItem+=`<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        	<div class="modal-dialog modal-sm">
+        	<div class="modal-content">
+        	<input type="text" class="inputTask">
+        	<button class="btn btn-default col-xs-6 edit" data-fbid="${item.id}">Edit</button>
+        	</div>
+        	</div>
+        	</div>`;
         	newListItem+='</div>';
         	newListItem+='<div class="col-xs-4">';
-        	newListItem+=`<button class="btn btn-default col-xs-6 edit" data-fbid="${item.id}">Edit</button>`;
+        	newListItem+=`<button class="btn btn-default col-xs-6 edit" data-toggle="modal" data-target=".bd-example-modal-sm" data-fbid="${item.id}">Edit</button>`;
         	newListItem+=`<button class="btn btn-danger col-xs-6 delete" data-fbid="${item.id}">Delete</button>`;
         	newListItem+='</div>';
         	newListItem+='</li>';
@@ -35,6 +42,16 @@ function putTodoInDOM (){
         }
 
       });
+	});
+}
+
+function createLogoutButton(){
+	FbAPI.getUser(apiKeys, uid).then(function(userResponse){
+		console.log("user response", userResponse);
+		$("#logout-container").html("");
+		let currentUsername = userResponse.userName;
+		let logoutBtn = `<button class="btn btn-danger" id="logoutBtn">LOGOUT ${currentUsername}</button>`;
+		$("#logout-container").append(logoutBtn);
 	});
 }
 
@@ -92,7 +109,7 @@ $(document).ready(function(){
 		let editedItem = {
 			"task": task,
 			"isCompleted": !updatedIsCompleted,
-				"uid":uid
+			"uid":uid
 		};
 		FbAPI.editTodo(apiKeys, itemId, editedItem).then(function(){
 			putTodoInDOM();
@@ -102,16 +119,28 @@ $(document).ready(function(){
 	$("#registerButton").on("click", function(){
 		let email = $("#inputEmail").val();
 		let password = $("#inputPassword").val();
+		let userName = $("#inputUsername").val();
 		let user = {
 			"email": email,
 			"password": password
 		};
-		FbAPI.registerUser(user).then(function(response){
-			console.log("user response", response);
+		FbAPI.registerUser(user).then(function(registerResponse){
+			console.log("user response", registerResponse);
+
+			let newUser ={
+				"userName": userName,
+				"uid": registerResponse.uid
+			};
+			return FbAPI.addUser(apiKeys, newUser);
+
+		}).then(function(userResponse){
 			return FbAPI.loginUser(user);
-		}).then(function(loginResponse){
+
+		})
+		.then(function(loginResponse){
 			console.log("login response", loginResponse);
 			uid = loginResponse.uid;
+			createLogoutButton();
 			putTodoInDOM();
 			$("#login-container").addClass("hide");
 			$("#todo-container").removeClass("hide");
@@ -127,13 +156,25 @@ $(document).ready(function(){
 		};
 		FbAPI.loginUser(user).then(function(loginResponse){
 			uid = loginResponse.uid;
+			createLogoutButton();
 			putTodoInDOM();
 			$("#login-container").addClass("hide");
 			$("#todo-container").removeClass("hide");
 		});
 	});
+});
 
-
+$("#logout-container").on("click", "#logoutBtn", function	(){
+	console.log("clicked");
+	FbAPI.logoutUser();
+	uid = "";
+	$('#incomplete-tasks').html("");
+	$('#completed-tasks').html("");
+	$("#inputEmail").val("");
+	$("#inputPassword").val("");
+	$("#inputUsername").val("");
+	$("#login-container").removeClass("hide");
+	$("#todo-container").addClass("hide");
 });
 
 
